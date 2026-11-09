@@ -1,0 +1,22 @@
+{
+  "name": "entorno_ia_trabajo",
+  "module": "index.tsx",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "bun run index.tsx",
+    "typecheck": "bun check"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/react": "^19.3.0"
+  },
+  "peerDependencies": {
+    "typescript": "^7"
+  },
+  "dependencies": {
+    "@opentui/core": "^0.8.3",
+    "@opentui/react": "^0.8.3",
+    "react": "^19.3.1"
+  }
+}
