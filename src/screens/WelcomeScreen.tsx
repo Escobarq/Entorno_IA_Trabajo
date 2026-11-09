@@ -29,15 +29,13 @@ function WelcomeScreen({ onContinue }: { onContinue: () => void }) {
                 <text>
                     <strong fg="#F2C14E">Bienvenido.</strong>
                 </text>
-                <text>Configuremos el entorno para IA</text>
-                <text fg="#93AAA6">
-                    OpenCode, modelos y herramientas en un solo lugar
-                </text>
+                <text>Entorno base para IA</text>
+                <text fg="#93AAA6">Bun / Node.js / Python</text>
                 <text fg="#426B66">{"-".repeat(contentWidth)}</text>
                 <ModelMarquee width={contentWidth} />
                 <text fg="#F2C14E">Primeros pasos</text>
-                <text>Vamos a preparar primero Bun, Node.js y Python.</text>
-                <text fg="#93AAA6">Presiona Enter o I para continuar</text>
+                <text>Preparando entorno</text>
+                <text fg="#93AAA6">Enter para continuar</text>
             </box>
         </box>
     );

@@ -1,4 +1,5 @@
 import { spawn } from "node:child_process";
+import { format } from "node:util";
 import { useState } from "react";
 
 import { createCliRenderer } from "@opentui/core";
@@ -61,10 +62,10 @@ function App() {
       await runInstallCommand(command.command, (chunk) => {
         setLogs((current) => `${current}${chunk}`);
       });
-      setLogs((current) => `${current}\n✅ Instalación completada.`);
+      setLogs((current) => `${current}\n${format("[OK] %s", "Instalación completada.")}`);
     } catch (error) {
       const message = error instanceof Error ? error.message : "Error desconocido";
-      setLogs((current) => `${current}\n❌ ${message}`);
+      setLogs((current) => `${current}\n${format("[ERROR] %s", message)}`);
     }
   };
 
@@ -77,7 +78,11 @@ function App() {
       <InstallLogsScreen
         toolName={selectedTool.name}
         logs={logs}
-        onBack={() => setScreen("install")}
+        onBack={() => {
+          setSelectedTool(null);
+          setLogs("");
+          setScreen("install");
+        }}
       />
     );
   }

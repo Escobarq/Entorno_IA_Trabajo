@@ -108,4 +108,49 @@ export const INSTALL_TOOLS: InstallTool[] = [
       },
     ],
   },
+  {
+    name: "UV",
+    description:
+      "Gestor de proyectos y dependencias para Python, muy usado en entornos de IA",
+    commands: [
+      {
+        platform: "Windows PowerShell",
+        command:
+          'powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"',
+      },
+      {
+        platform: "Linux / macOS",
+        command: "curl -LsSf https://astral.sh/uv/install.sh | sh",
+      },
+    ],
+  },
+  {
+    name: "Golang",
+    description:
+      "Lenguaje compilado para backends, CLIs y herramientas de sistema",
+    commands: [
+      {
+        platform: "Windows",
+        command: "winget install GoLang.Go",
+      },
+      {
+        platform: "Linux / macOS",
+        command: "sudo apt-get install -y golang || brew install go",
+      },
+    ],
+  },
+  {
+    name: "Rust",
+    description: "Lenguaje seguro y rapido para sistemas y herramientas",
+    commands: [
+      {
+        platform: "Windows",
+        command: "winget install Rustlang.Rustup",
+      },
+      {
+        platform: "Linux / macOS",
+        command: "curl https://sh.rustup.rs -sSf | sh",
+      },
+    ],
+  },
 ];

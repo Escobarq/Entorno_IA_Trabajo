@@ -4,7 +4,6 @@ import { useKeyboard, useTerminalDimensions } from "@opentui/react";
 
 import {
     CURRENT_OS,
-    getRecommendedCommand,
     INSTALL_TOOLS,
 } from "../data/installTools";
 import type { InstallTool } from "../data/installTools";
@@ -25,6 +24,21 @@ function InstallScreen({
     const { width } = useTerminalDimensions();
     const [selectedIndex, setSelectedIndex] = useState(0);
     const contentWidth = Math.max(1, Math.min(width - 4, 72));
+    const selectedTool = INSTALL_TOOLS[selectedIndex] ?? INSTALL_TOOLS[0];
+
+    if (!selectedTool) {
+        return (
+            <box
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+                width="100%"
+                height="100%"
+            >
+                <text>No hay herramientas disponibles.</text>
+            </box>
+        );
+    }
 
     useKeyboard((event) => {
         if (event.name === "escape") {
@@ -74,25 +88,17 @@ function InstallScreen({
                 <text fg="#93AAA6">Teclas: ↑ ↓ para mover • Enter para ver logs • Esc para volver</text>
 
                 {INSTALL_TOOLS.map((tool, index) => {
-                    const recommendedCommand = getRecommendedCommand(tool, CURRENT_OS);
                     const isSelected = index === selectedIndex;
 
                     return (
-                        <box key={tool.name} flexDirection="column" width="100%" gap={1}>
-                            <text>
-                                <strong fg={isSelected ? "#F2C14E" : "#FFFFFF"}>
-                                    {isSelected ? ">" : " "}
-                                    {index + 1}. {tool.name}
-                                </strong>
-                                <span fg="#93AAA6"> {tool.description}</span>
-                            </text>
-                            <box flexDirection="column" paddingLeft={2}>
-                                <text fg="#93AAA6">{recommendedCommand.platform}</text>
-                                <text>{recommendedCommand.command}</text>
-                            </box>
-                        </box>
+                        <text key={tool.name} fg={isSelected ? "#F2C14E" : "#FFFFFF"}>
+                            {isSelected ? ">" : " "}
+                            {index + 1}. {tool.name}
+                        </text>
                     );
                 })}
+
+                <text fg="#93AAA6">{selectedTool.description}</text>
             </box>
         </box>
     );
