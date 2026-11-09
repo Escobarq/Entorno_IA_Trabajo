@@ -4,12 +4,20 @@ export type InstallCommand = {
   platform: string;
   command: string;
   recommended?: boolean;
+  interactive?: boolean;
 };
 
 export type InstallTool = {
   name: string;
   icon: string;
-  category: "base" | "complement" | "gentleman-programming" | "token-savings";
+  category:
+    | "base"
+    | "complement"
+    | "gentleman-programming"
+    | "token-savings"
+    | "mcp-context"
+    | "vercel-labs"
+    | "github";
   description: string;
   commands: InstallCommand[];
   postInstallAction?:
@@ -22,7 +30,10 @@ export const INSTALL_TOOL_CATEGORIES = [
   { id: "base", label: "Entorno base" },
   { id: "complement", label: "Lenguajes y complementos" },
   { id: "gentleman-programming", label: "Gentleman Programming" },
+  { id: "mcp-context", label: "MCP y contexto para IA" },
   { id: "token-savings", label: "Herramientas para reducir el consumo" },
+  { id: "vercel-labs", label: "Vercel Labs" },
+  { id: "github", label: "GitHub" },
 ] as const;
 
 export function detectOperatingSystem(): OperatingSystem {
@@ -292,6 +303,92 @@ export const INSTALL_TOOLS: InstallTool[] = [
         platform: "Linux / macOS (instalador alternativo)",
         command:
           "curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh",
+      },
+    ],
+  },
+  {
+    name: "Caveman (skill)",
+    icon: "󰚩",
+    category: "token-savings",
+    description:
+      "Skill global para respuestas mas breves y menor uso de tokens",
+    commands: [
+      {
+        platform: "Multiplataforma (Node.js y npx)",
+        command: "npx skills add JuliusBrussee/caveman -g",
+        recommended: true,
+        interactive: true,
+      },
+    ],
+  },
+  {
+    name: "Ponytail",
+    icon: "󰄛",
+    category: "token-savings",
+    description:
+      "Reduce codigo y tokens; incluye comandos de revision y auditoria",
+    commands: [
+      {
+        platform: "OpenCode (global)",
+        command: "opencode plugin add @dietrichgebert/ponytail",
+        recommended: true,
+      },
+    ],
+  },
+  {
+    name: "Context7",
+    icon: "󰘦",
+    category: "mcp-context",
+    description: "Documentacion actualizada de librerias dentro del agente",
+    commands: [
+      {
+        platform: "Multiplataforma (Node.js 22.13+)",
+        command: "npx ctx7 setup --opencode",
+        recommended: true,
+        interactive: true,
+      },
+    ],
+  },
+  {
+    name: "find-skills",
+    icon: "󰍉",
+    category: "vercel-labs",
+    description: "Busca skills disponibles y ayuda a instalarlas",
+    commands: [
+      {
+        platform: "Multiplataforma (Node.js y npx)",
+        command: "npx skills add vercel-labs/skills --skill find-skills -g",
+        recommended: true,
+        interactive: true,
+      },
+    ],
+  },
+  {
+    name: "Impeccable",
+    icon: "󰊤",
+    category: "github",
+    description: "Skill de diseño frontend, critica y auditoria de interfaces",
+    commands: [
+      {
+        platform: "OpenCode global (Node.js y npx)",
+        command: "npx impeccable install --providers=opencode --scope=global",
+        recommended: true,
+        interactive: true,
+      },
+    ],
+  },
+  {
+    name: "Graphify",
+    icon: "󰘦",
+    category: "github",
+    description:
+      "Convierte el codigo y la documentacion en un grafo consultable",
+    commands: [
+      {
+        platform: "Multiplataforma (Python 3.10+ y uv)",
+        command: "uv tool install graphifyy && graphify install",
+        recommended: true,
+        interactive: true,
       },
     ],
   },

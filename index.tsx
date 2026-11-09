@@ -92,9 +92,10 @@ async function runInteractiveCommand(
   executable: string,
   args: string[] = [],
   env?: NodeJS.ProcessEnv,
+  shell = false,
 ): Promise<number> {
   return await new Promise<number>((resolve, reject) => {
-    const child = spawn(executable, args, { stdio: "inherit", env });
+    const child = spawn(executable, args, { stdio: "inherit", env, shell });
 
     child.on("error", reject);
     child.on("close", (code) => resolve(code ?? 1));
@@ -128,6 +129,43 @@ function App() {
     setInstallationSucceeded(false);
     setLogs(`> ${command.command}\n`);
     setScreen("logs");
+
+    if (command.interactive) {
+      let shouldResumeRenderer = false;
+      let resultMessage = "";
+
+      try {
+        await renderer.suspend();
+        shouldResumeRenderer = true;
+
+        const exitCode = await runInteractiveCommand(
+          command.command,
+          [],
+          process.env,
+          true,
+        );
+        resultMessage = exitCode === 0
+          ? format("[OK] %s", "Configuracion de Context7 completada.")
+          : format("[ERROR] %s", `El asistente de Context7 terminó con código ${exitCode}.`);
+        setInstallationSucceeded(exitCode === 0);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "Error desconocido";
+        resultMessage = format("[ERROR] %s", `No se pudo configurar Context7: ${message}`);
+      }
+
+      if (shouldResumeRenderer) {
+        try {
+          await renderer.resume();
+        } catch (error) {
+          const message = error instanceof Error ? error.message : "Error desconocido";
+          resultMessage = format("[ERROR] %s", `No se pudo restaurar la TUI: ${message}`);
+          setInstallationSucceeded(false);
+        }
+      }
+
+      setLogs((current) => `${current}\n${resultMessage}`);
+      return;
+    }
 
     try {
       await runInstallCommand(command.command, (chunk) => {
