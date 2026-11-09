@@ -3,10 +3,18 @@ import { useKeyboard, useTerminalDimensions } from "@opentui/react";
 function InstallLogsScreen({
     toolName,
     logs,
+    canConfigure,
+    configureLabel,
+    isConfiguring,
+    onConfigure,
     onBack,
 }: {
     toolName: string;
     logs: string;
+    canConfigure: boolean;
+    configureLabel: string;
+    isConfiguring: boolean;
+    onConfigure: () => void;
     onBack: () => void;
 }) {
     const { width } = useTerminalDimensions();
@@ -16,6 +24,11 @@ function InstallLogsScreen({
     useKeyboard((event) => {
         if (event.name === "escape") {
             onBack();
+            return;
+        }
+
+        if (event.name === "c" && canConfigure && !isConfiguring) {
+            onConfigure();
         }
     });
 
@@ -51,7 +64,13 @@ function InstallLogsScreen({
                     ))}
                 </box>
 
-                <text fg="#93AAA6">Presiona Esc para volver</text>
+                {canConfigure ? (
+                    <text fg="#93AAA6">
+                        {isConfiguring ? "Ejecutando configuracion..." : `${configureLabel} • Esc para volver`}
+                    </text>
+                ) : (
+                    <text fg="#93AAA6">Presiona Esc para volver</text>
+                )}
             </box>
         </box>
     );

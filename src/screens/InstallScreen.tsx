@@ -4,6 +4,7 @@ import { useKeyboard, useTerminalDimensions } from "@opentui/react";
 
 import {
     CURRENT_OS,
+    INSTALL_TOOL_CATEGORIES,
     INSTALL_TOOLS,
 } from "../data/installTools";
 import type { InstallTool } from "../data/installTools";
@@ -81,20 +82,35 @@ function InstallScreen({
                 width={contentWidth}
             >
                 <text>
-                    <strong fg="#F2C14E">Herramientas base</strong>
+                    <strong fg="#F2C14E">Catalogo de instalacion</strong>
                 </text>
                 <text fg="#93AAA6">Sistema detectado: {OS_LABELS[CURRENT_OS]}</text>
                 <text fg="#426B66">{"-".repeat(contentWidth)}</text>
                 <text fg="#93AAA6">Teclas: ↑ ↓ para mover • Enter para ver logs • Esc para volver</text>
 
-                {INSTALL_TOOLS.map((tool, index) => {
-                    const isSelected = index === selectedIndex;
+                {INSTALL_TOOL_CATEGORIES.map(({ id, label }) => {
+                    const tools = INSTALL_TOOLS.flatMap((tool, index) =>
+                        tool.category === id ? [{ tool, index }] : [],
+                    );
+
+                    if (tools.length === 0) {
+                        return null;
+                    }
 
                     return (
-                        <text key={tool.name} fg={isSelected ? "#F2C14E" : "#FFFFFF"}>
-                            {isSelected ? ">" : " "}
-                            {tool.icon} {tool.name}
-                        </text>
+                        <box key={id} flexDirection="column" gap={0}>
+                            <text fg="#48DCC3"><strong>{label}</strong></text>
+                            {tools.map(({ tool, index }) => {
+                                const isSelected = index === selectedIndex;
+
+                                return (
+                                    <text key={tool.name} fg={isSelected ? "#F2C14E" : "#FFFFFF"}>
+                                        {isSelected ? ">" : " "}
+                                        {tool.icon} {tool.name}
+                                    </text>
+                                );
+                            })}
+                        </box>
                     );
                 })}
 
