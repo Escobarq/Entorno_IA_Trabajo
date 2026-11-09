@@ -7,6 +7,7 @@ export type InstallCommand = {
 
 export type InstallTool = {
   name: string;
+  icon: string;
   description: string;
   commands: InstallCommand[];
 };
@@ -57,14 +58,12 @@ export function getRecommendedCommand(
   return command;
 }
 
-export const MODEL_TRACK =
-  "ChatGPT   /   Claude   /   Gemini   /   DeepSeek   /   Qwen   /   Mistral   /   Llama   /   ";
-
 export const CURRENT_OS = detectOperatingSystem();
 
 export const INSTALL_TOOLS: InstallTool[] = [
   {
     name: "Bun",
+    icon: "",
     description: "Runtime de JavaScript y TypeScript, y gestor de paquetes",
     commands: [
       {
@@ -79,6 +78,7 @@ export const INSTALL_TOOLS: InstallTool[] = [
   },
   {
     name: "Node.js",
+    icon: "",
     description:
       "Runtime principal para JavaScript y herramientas del ecosistema",
     commands: [
@@ -95,6 +95,7 @@ export const INSTALL_TOOLS: InstallTool[] = [
   },
   {
     name: "Python",
+    icon: "",
     description: "Lenguaje de scripting, automatización y ciencia de datos",
     commands: [
       {
@@ -110,6 +111,7 @@ export const INSTALL_TOOLS: InstallTool[] = [
   },
   {
     name: "UV",
+    icon: "",
     description:
       "Gestor de proyectos y dependencias para Python, muy usado en entornos de IA",
     commands: [
@@ -126,6 +128,7 @@ export const INSTALL_TOOLS: InstallTool[] = [
   },
   {
     name: "Golang",
+    icon: "",
     description:
       "Lenguaje compilado para backends, CLIs y herramientas de sistema",
     commands: [
@@ -141,6 +144,7 @@ export const INSTALL_TOOLS: InstallTool[] = [
   },
   {
     name: "Rust",
+    icon: "",
     description: "Lenguaje seguro y rapido para sistemas y herramientas",
     commands: [
       {

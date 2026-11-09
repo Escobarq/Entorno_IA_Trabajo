@@ -26,6 +26,33 @@ Automatizar la instalacion y configuracion de herramientas para mejorar la exper
 16. Toda la UI debe mantenerse en TypeScript con tipado estricto y estructura modular.
 17. Antes de cerrar una funcionalidad, se debe validar con `bun run typecheck` para asegurar que no haya errores de compilacion.
 18. Las decisiones de diseño deben priorizar claridad, simplicidad y mantenimiento sobre complejidad visual innecesaria.
+19. Para mejor experiencia visual en terminal, se usara la fuente del sistema Windows junto con una fuente de iconos compatible para terminal, priorizando una seleccion estable y legible para herramientas y modelos de IA. La referencia principal sera la familia Windows Terminal / Consolas y, para iconos, se exige la fuente Hack Nerd Font o una variante equivalente compatible con Windows. El objetivo es mantener una apariencia limpia y consistente, sin emojis ni caracteres no soportados por terminales basadas en texto.
+
+20. Los iconos de herramientas y modelos de IA deben representarse con simbolos de terminal compatibles, no con emojis. Ejemplos de uso recomendado:
+    - Bun: icono tipo runtime JS / terminal
+    - Node.js: icono tipo nodo / ejecutable
+    - Python: icono tipo serpiente o terminal
+    - UV: icono de paquete y entorno
+    - Golang: icono tipo G / terminal
+    - Rust: icono tipo rustacean / compilador
+    - Claude: icono tipo IA / asistente
+    - DeepSeek: icono tipo IA / modelo
+    - Gemini: icono tipo estrella o IA
+    - ChatGPT: icono tipo burbuja / asistente
+    - OpenCode: icono tipo codigo / terminal
+
+21. En la interfaz TUI, cada herramienta y cada modelo de IA debe tener un identificador visual breve basado en texto o simbolos de terminal, nunca emojis ni imagenes rasterizadas.
+
+22. Si se instala o se utiliza una fuente de iconos, debe elegirse una opcion compatible con Windows y practica en terminales, y su uso debe mantenerse limitado a la UI para evitar que el texto se vuelva ilegible o saturado.
+
+23. La referencia visual del sistema debe seguir un criterio: nombres claros, iconos compactos y descripcion corta, priorizando legibilidad en pantallas pequeñas de terminal.
+
+### Requisitos del proyecto
+
+- La app debe ser una TUI (Text User Interface) en TypeScript, ejecutable en terminales Windows, Linux y macOS.
+- Utilizar la fuente de Hack Nerd Font o una variante compatible para iconos de terminal.
+- En VS Code, configurar la terminal integrada con `Hack Nerd Font Mono` y abrir una terminal nueva para aplicar el cambio en PowerShell o Git Bash.
+- Mantener el catalogo de asistentes y modelos de IA separado visualmente de la lista de herramientas instalables.
 
 ### Reglas adicionales de implementacion
 

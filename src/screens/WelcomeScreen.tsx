@@ -1,6 +1,6 @@
 import { useKeyboard, useTerminalDimensions } from "@opentui/react";
 
-import ModelMarquee from "../components/ModelMarquee";
+import ModelCatalog from "../components/ModelCatalog";
 
 function WelcomeScreen({ onContinue }: { onContinue: () => void }) {
     const { width } = useTerminalDimensions();
@@ -30,9 +30,10 @@ function WelcomeScreen({ onContinue }: { onContinue: () => void }) {
                     <strong fg="#F2C14E">Bienvenido.</strong>
                 </text>
                 <text>Entorno base para IA</text>
-                <text fg="#93AAA6">Bun / Node.js / Python</text>
+                <text fg="#93AAA6">Por Escobarq</text>
                 <text fg="#426B66">{"-".repeat(contentWidth)}</text>
-                <ModelMarquee width={contentWidth} />
+                <ModelCatalog width={contentWidth} />
+                <text fg="#426B66">{"-".repeat(contentWidth)}</text>
                 <text fg="#F2C14E">Primeros pasos</text>
                 <text>Preparando entorno</text>
                 <text fg="#93AAA6">Enter para continuar</text>

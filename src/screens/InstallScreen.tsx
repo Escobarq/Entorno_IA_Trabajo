@@ -93,12 +93,12 @@ function InstallScreen({
                     return (
                         <text key={tool.name} fg={isSelected ? "#F2C14E" : "#FFFFFF"}>
                             {isSelected ? ">" : " "}
-                            {index + 1}. {tool.name}
+                            {tool.icon} {tool.name}
                         </text>
                     );
                 })}
 
-                <text fg="#93AAA6">{selectedTool.description}</text>
+                <text fg="#93AAA6">{selectedTool.icon} {selectedTool.description}</text>
             </box>
         </box>
     );
