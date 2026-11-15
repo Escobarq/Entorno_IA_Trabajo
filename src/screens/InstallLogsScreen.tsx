@@ -24,7 +24,11 @@ function InstallLogsScreen({
     const logLines = logs.split("\n").slice(-18);
 
     useKeyboard((event) => {
-        if (event.name === "escape") {
+        if (
+            event.name === "escape" &&
+            !isInstalling &&
+            !isConfiguring
+        ) {
             onBack();
             return;
         }
@@ -68,9 +72,11 @@ function InstallLogsScreen({
                     ))}
                 </box>
 
-                {canConfigure ? (
+                {isInstalling || isConfiguring ? (
+                    <text fg="#93AAA6">Espera a que termine la operación.</text>
+                ) : canConfigure ? (
                     <text fg="#93AAA6">
-                        {isConfiguring ? "Ejecutando configuracion..." : `${configureLabel} • Esc para volver`}
+                        {`${configureLabel} • Esc para volver`}
                     </text>
                 ) : (
                     <text fg="#93AAA6">Presiona Esc para volver</text>
