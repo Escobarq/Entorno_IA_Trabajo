@@ -4,6 +4,7 @@ import { useKeyboard, useTerminalDimensions } from "@opentui/react";
 
 import {
     CURRENT_OS,
+    getRecommendedCommand,
     INSTALL_TOOL_CATEGORIES,
     INSTALL_TOOLS,
 } from "../data/installTools";
@@ -43,6 +44,10 @@ function InstallScreen({
         null,
     );
     const contentWidth = Math.max(1, Math.min(width - 4, 72));
+
+    const recommendedCommand = confirmingTool
+        ? getRecommendedCommand(confirmingTool, CURRENT_OS)
+        : null;
 
     const filteredTools = INSTALL_TOOLS.filter((tool) =>
         tool.name.toLowerCase().includes(filter.toLowerCase()) ||
@@ -181,6 +186,14 @@ function InstallScreen({
                     <text fg="#93AAA6">
                         s = Sí  •  n = No  •  Esc = Cancelar
                     </text>
+                    {recommendedCommand && (
+                        <>
+                            <text fg="#93AAA6">
+                                {recommendedCommand.platform}
+                            </text>
+                            <text>{recommendedCommand.command}</text>
+                        </>
+                    )}
                 </box>
             </box>
         );

@@ -58,7 +58,7 @@ La mayoria de instalaciones muestra su salida en la app. Los asistentes oficiale
 - **Impeccable:** instala la skill global para OpenCode con `npx impeccable install --providers=opencode --scope=global`; requiere Node.js/npx. Aporta comandos de diseño, crítica y auditoría frontend, además de anotaciones para GitHub Actions.
 - **Graphify:** crea un grafo local consultable del código y la documentación. Requiere Python 3.10+ y uv; el paquete oficial de PyPI se llama `graphifyy`. El instalador detecta el agente y registra la skill.
 
-OpenCode en Windows: su documentacion no considera compatibles los gestores de paquetes; utiliza el binario independiente oficial.
+OpenCode se instala con `bun install -g --trust @opencode/cli` en todos los sistemas, incluido Windows.
 
 ## Verificacion
 
