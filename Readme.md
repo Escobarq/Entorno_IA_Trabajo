@@ -11,6 +11,22 @@ bun install
 bun run start
 ```
 
+## Instalación rápida (sin npm)
+
+Puedes descargar y ejecutar el instalador directamente desde HTTP:
+
+### Linux / macOS
+```sh
+curl -fsSL https://tu-dominio.com/install.sh | bash
+```
+
+### Windows (PowerShell)
+```powershell
+irm https://tu-dominio.com/install.ps1 | iex
+```
+
+> Solo usa estos comandos si confías en el origen: descargan y ejecutan código remoto con tus permisos. Para entornos sensibles, instala con `bun install` y ejecuta con `bun run start`.
+
 ## Uso
 
 - Flechas arriba/abajo: seleccionar herramienta.
