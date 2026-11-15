@@ -18,6 +18,13 @@ import {
     runInstallCommand,
     runInteractiveCommand,
 } from "../services/processRunner";
+import { appendLogLines } from "./logUtils";
+
+const MAX_LOG_LINES = 200;
+
+function appendLogs(current: string, addition: string): string {
+    return appendLogLines(current, addition, MAX_LOG_LINES);
+}
 
 function App({ renderer }: { renderer: CliRenderer }) {
     const [screen, setScreen] = useState<"welcome" | "install" | "logs">("welcome");
@@ -69,20 +76,20 @@ function App({ renderer }: { renderer: CliRenderer }) {
                 }
             }
 
-            setLogs((current) => `${current}\n${resultMessage}`);
+            setLogs((current) => appendLogs(current, resultMessage));
             setIsInstalling(false);
             return;
         }
 
         try {
             await runInstallCommand(command.command, (chunk) => {
-                setLogs((current) => `${current}${chunk}`);
+                setLogs((current) => appendLogs(current, chunk));
             });
             setInstallationSucceeded(true);
-            setLogs((current) => `${current}\n${format("[OK] %s", "Instalación completada.")}`);
+            setLogs((current) => appendLogs(current, format("[OK] %s", "Instalación completada.")));
         } catch (error) {
             const message = error instanceof Error ? error.message : "Error desconocido";
-            setLogs((current) => `${current}\n${format("[ERROR] %s", message)}`);
+            setLogs((current) => appendLogs(current, format("[ERROR] %s", message)));
         } finally {
             setIsInstalling(false);
         }
@@ -116,22 +123,22 @@ function App({ renderer }: { renderer: CliRenderer }) {
             }
         }
 
-        setLogs((current) => `${current}\n${resultMessage}`);
+        setLogs((current) => appendLogs(current, resultMessage));
         setIsRunningPostInstallAction(false);
     };
 
     const handleConfigureGga = async () => {
         setIsRunningPostInstallAction(true);
-        setLogs((current) => `${current}\n[INFO] Configurando revisión en ${process.cwd()}\n`);
+        setLogs((current) => appendLogs(current, `[INFO] Configurando revisión en ${process.cwd()}`));
 
         try {
             await configureGgaForOpenCode(process.cwd(), (chunk) => {
-                setLogs((current) => `${current}${chunk}`);
+                setLogs((current) => appendLogs(current, chunk));
             });
-            setLogs((current) => `${current}\n${format("[OK] %s", "Revisión OpenCode activada para los commits de este repositorio.")}`);
+            setLogs((current) => appendLogs(current, format("[OK] %s", "Revisión OpenCode activada para los commits de este repositorio.")));
         } catch (error) {
             const message = error instanceof Error ? error.message : "Error desconocido";
-            setLogs((current) => `${current}\n${format("[ERROR] %s", message)}`);
+            setLogs((current) => appendLogs(current, format("[ERROR] %s", message)));
         }
 
         setIsRunningPostInstallAction(false);
@@ -168,7 +175,7 @@ function App({ renderer }: { renderer: CliRenderer }) {
             }
         }
 
-        setLogs((current) => `${current}\n${resultMessage}`);
+        setLogs((current) => appendLogs(current, resultMessage));
         setIsRunningPostInstallAction(false);
     };
 
