@@ -1,6 +1,6 @@
 import { spawn } from "node:child_process";
 import { constants } from "node:fs";
-import { copyFile, lstat, readFile, writeFile } from "node:fs/promises";
+import { copyFile, lstat, readFile, rename, unlink, writeFile } from "node:fs/promises";
 import { delimiter, join } from "node:path";
 import { homedir } from "node:os";
 
@@ -53,7 +53,7 @@ function runCommand(
   });
 }
 
-async function setOpenCodeProvider(configPath: string): Promise<void> {
+export async function setOpenCodeProvider(configPath: string): Promise<void> {
   const configStat = await lstat(configPath);
   if (!configStat.isFile() || configStat.isSymbolicLink()) {
     throw new Error(
@@ -79,7 +79,23 @@ async function setOpenCodeProvider(configPath: string): Promise<void> {
         )
       : `${contents}${contents.endsWith("\n") || contents.length === 0 ? "" : "\n"}PROVIDER="opencode"\n`;
 
-  await writeFile(configPath, updated, "utf8");
+  const tmpPath = `${configPath}.tmp-${Date.now()}`;
+  await writeFile(tmpPath, updated, "utf8");
+  try {
+    await rename(tmpPath, configPath);
+  } catch (error) {
+    // Windows no permite renombrar sobre un archivo existente
+    if (
+      error instanceof Error &&
+      "code" in error &&
+      (error.code === "EBUSY" || error.code === "EPERM")
+    ) {
+      await unlink(configPath);
+      await rename(tmpPath, configPath);
+    } else {
+      throw error;
+    }
+  }
 }
 
 export async function configureGgaForOpenCode(
