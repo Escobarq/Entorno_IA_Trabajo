@@ -25,6 +25,7 @@ function App({ renderer }: { renderer: CliRenderer }) {
     const [logs, setLogs] = useState("");
     const [installationSucceeded, setInstallationSucceeded] = useState(false);
     const [isRunningPostInstallAction, setIsRunningPostInstallAction] = useState(false);
+    const [isInstalling, setIsInstalling] = useState(false);
 
     const handleInstall = async (tool: InstallTool) => {
         const command = getRecommendedCommand(tool, CURRENT_OS);
@@ -33,6 +34,7 @@ function App({ renderer }: { renderer: CliRenderer }) {
         setInstallationSucceeded(false);
         setLogs(`> ${command.command}\n`);
         setScreen("logs");
+        setIsInstalling(true);
 
         if (command.interactive) {
             let shouldResumeRenderer = false;
@@ -68,6 +70,7 @@ function App({ renderer }: { renderer: CliRenderer }) {
             }
 
             setLogs((current) => `${current}\n${resultMessage}`);
+            setIsInstalling(false);
             return;
         }
 
@@ -80,6 +83,8 @@ function App({ renderer }: { renderer: CliRenderer }) {
         } catch (error) {
             const message = error instanceof Error ? error.message : "Error desconocido";
             setLogs((current) => `${current}\n${format("[ERROR] %s", message)}`);
+        } finally {
+            setIsInstalling(false);
         }
     };
 
@@ -192,6 +197,7 @@ function App({ renderer }: { renderer: CliRenderer }) {
             <InstallLogsScreen
                 toolName={selectedTool.name}
                 logs={logs}
+                isInstalling={isInstalling}
                 canConfigure={
                     installationSucceeded && selectedTool.postInstallAction !== undefined
                 }

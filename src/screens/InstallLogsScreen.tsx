@@ -3,6 +3,7 @@ import { useKeyboard, useTerminalDimensions } from "@opentui/react";
 function InstallLogsScreen({
     toolName,
     logs,
+    isInstalling,
     canConfigure,
     configureLabel,
     isConfiguring,
@@ -11,6 +12,7 @@ function InstallLogsScreen({
 }: {
     toolName: string;
     logs: string;
+    isInstalling: boolean;
     canConfigure: boolean;
     configureLabel: string;
     isConfiguring: boolean;
@@ -48,6 +50,8 @@ function InstallLogsScreen({
                     Esta salida se muestra dentro de la app, sin mezclar la terminal del sistema.
                 </text>
                 <text fg="#426B66">{"-".repeat(contentWidth)}</text>
+
+                {isInstalling && <text fg="#F2C14E">[Instalando...]</text>}
 
                 <box flexDirection="column" gap={1}>
                     {logLines.map((line, index) => (
